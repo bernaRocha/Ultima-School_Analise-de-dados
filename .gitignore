@@ -132,3 +132,6 @@ dmypy.json
 #### Feito por mim
 
 *data/
+*data-laliga/
+*.txt
+03_atividade.ipynb
