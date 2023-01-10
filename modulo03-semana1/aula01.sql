@@ -55,18 +55,6 @@ FROM customers
 WHERE  LOWER() (customer_city) LIKE  "%paulo%"
 ORDER BY customer_city DESC; 
 
-
-
-
-
-
-
-
-
-
-select count  (order_id || order_item_id || product_id)
-from order_items
-
 /* create table ou create view
  * select
  * from 
@@ -76,7 +64,3 @@ from order_items
  * order by
  * limit
  */
-
--- seu comentario
-
-
