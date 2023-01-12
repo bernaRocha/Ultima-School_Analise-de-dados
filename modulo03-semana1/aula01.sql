@@ -6,29 +6,33 @@ FROM customers;
 
 SELECT *
 FROM  orders 
-WHERE  order_purchase_timestamp <> "2017-10-02";
+WHERE order_purchase_timestamp <> "2017-10-02";
 
 -- 2. Quantos clientes únicos temos na base ?
-SELECT  COUNT(*), COUNT(DISTINCT  customer_id), COUNT(customer_id)
+SELECT  COUNT(*)
+, COUNT(DISTINCT  customer_id)
+, COUNT(customer_id)
 FROM customers
 WHERE  customer_id IS NOT NULL;  -- 99.441
 
 
 SELECT  COUNT(*)
-, COUNT(distinct order_id)
-, COUNT(distinct order_item_id)
-from order_items  
-where order_id is not null;
+, COUNT(DISTINCT order_id)
+, COUNT(DISTINCT order_item_id)
+FROM order_items  
+WHERE order_id IS NOT NULL;
 
 
-SELECT  COUNT(*), COUNT(distinct order_id || product_id)
-from order_items
-where order_id is not null;
+SELECT  COUNT(*)
+, COUNT(DISTINCT order_id || product_id)
+FROM order_items
+WHERE order_id IS NOT NULL;
 
-SELECT  COUNT(distinct customer_id), customer_state, customer_city
-from customers 
-group by 2, 3
-order by 1 desc;
+SELECT  COUNT(DISTINCT customer_id)
+, customer_state, customer_city
+FROM customers 
+GROUP BY 2, 3
+GROUP BY 1 DESC;
 
 /*  
     3. Selecione os dados da tabela de pagamentos onde
@@ -52,7 +56,7 @@ AND LOWER(customer_city) NOT LIKE  "s_o paulo";
 
 SELECT  DISTINCT  customer_city
 FROM customers 
-WHERE  LOWER() (customer_city) LIKE  "%paulo%"
+WHERE  LOWER((customer_city)) LIKE  "%paulo%"
 ORDER BY customer_city DESC; 
 
 /* create table ou create view
