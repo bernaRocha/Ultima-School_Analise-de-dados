@@ -70,12 +70,86 @@ FROM customers
 group by customer_state 
 ORDER BY 1 DESC 
 
+-- Comando HAVING, usado apenas quando estamos usando o GROUP BY
+-- Não podemos filtrar registros que estão sendo agrupados usando o WHERE
+
+SELECT COUNT(DISTINCT customer_id) AS counter, customer_state  
+FROM customers 
+group by customer_state 
+HAVING counter > 10000
+ORDER BY 1 DESC ;
+-- CASE WHEN permite substituir o valor de uma coluna por outro de acordo com uma ou mais condições
+-- começa com CASE e termina com END, entre fica o WHEN e THEN 
+-- Se nenhuma condição for atendida deve ser definido um ELSE
+
+SELECT 
+product_id, 
+product_category_name, 
+case 
+	when product_category_name like "%moveis%" then "moveis"
+	when product_category_name like "%lazer" then "lazer"
+	when product_category_name like "%livros%" then "livros"
+else "outros"	
+end as categoria_modificada
+FROM products 
+order by nova_categoria
+LIMIT  100;
+
+-- comando REPLACE
+SELECT DISTINCT product_category_name ,
+REPLACE (product_category_name, '_', ' ') categoria_sem_underline -- coluna, o que quer substuir pelo substituto
+FROM products
+;
+-- comando SUBSTRING
+SELECT order_purchase_timestamp, SUBSTRING(order_purchase_timestamp, 1, 10) as data_compra
+FROM orders 
+
+-- Nosso principal KPI é o volume de vendas. Como faço para contar esse volume mensalmente?
+SELECT COUNT(DISTINCT order_id) , SUBSTRING(order_purchase_timestamp, 1, 7) as mes_ano
+FROM orders 
+group by 2
+order by 2;
+
+-- comando COALESCE
+SELECT order_delivered_customer_date, 
+-- cria a coluna col_case_when
+case when order_delivered_customer_date 
+	is null then "Nao entregue"
+	else order_delivered_customer_date
+	end as col_case_when,
+-- cria a coluna col_coalesce
+COALESCE (order_delivered_customer_date, "Nao entregue") as col_coalesce
+from orders  ;
+
+-- lidando com data usando julianday
+SELECT CAST((JULIANDAY(order_purchase_timestamp) - JULIANDAY(order_delivered_carrier_date))as int) as dif_compra_entrega
+FROM orders;
+
+-- casting 
+SELECT (JULIANDAY(order_purchase_timestamp) - JULIANDAY(order_delivered_carrier_date)) as dif_compra_entrega
+FROM orders;
+
+-- comando CREATE VIEW
+
+--tabela virtual baseada no resultado de uma query
+--  utilizamos para armazenar querys que precisamos rodar com frequência 
+-- e que não queremos os resultados "congelados"
+
+create view volume_diario as
+select COUNT(*), date(order_purchase_timestamp) 
+FROM orders 
+group by 2
+order by 2 desc;
+
+SELECT *
+FROM volume_diario
 
 /*
  select
  from
  where
  group by
+ having
  order by
  limit
  
@@ -83,3 +157,5 @@ ORDER BY 1 DESC
  STDEV desvio padrão para campos numéricos
  
  */
+
+ -- 40 minutos
