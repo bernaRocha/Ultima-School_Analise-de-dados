@@ -7,6 +7,7 @@ SELECT DISTINCT customer_id
 FROM customers;
 
 /*
+
 = igual à
 <> OU != diferente de 
 < menor
@@ -29,22 +30,20 @@ WHERE coluna1 LIKE '_r%' tem r na segunda posição
 WHERE coluna1 LIKE 'a_%' começa com a e tem ao menos um caractere depois
 WHERE coluna1 LIKE 'a__%' 
 WHERE coluna1 LIKE 'a%o' começa com a e termina com o 
+
 */
 
 SELECT customer_city 
 FROM customers 
-WHERE customer_city LIKE "_a%"
-;
+WHERE customer_city LIKE "_a%";
 
 SELECT DISTINCT customer_city 
 FROM customers c 
-WHERE LOWER(customer_city) LIKE "S_o paulo" 
-;
+WHERE LOWER(customer_city) LIKE "S_o paulo";
 
 SELECT  * 
 FROM orders 
-ORDER BY order_purchase_timestamp DESC  
-;
+ORDER BY order_purchase_timestamp DESC;
 
 SELECT  * 
 FROM order_reviews 
@@ -52,23 +51,21 @@ ORDER BY review_creation_date DESC
 LIMIT 10;
 
 SELECT SUM(price), MAX(price), AVG(price), MIN(price), COUNT(price), STDEV(price)  
-FROM order_items 
-;
+FROM order_items;
 
-SELECT SUM(price), MAX(price), AVG(price), MIN(price), stdev(price) 
-FROM order_items 
-;
+SELECT SUM(price), MAX(price), AVG(price), MIN(price), STDEV(price) 
+FROM order_items;
 
 SELECT SUM(price) as soma, seller_id,
 FROM order_items 
 GROUP BY seller_id 
-ORDER BY soma DESC 
+ORDER BY soma DESC; 
 
 -- Qual estado vende mais??
 SELECT COUNT(DISTINCT customer_id), customer_state  
 FROM customers 
 GROUP BY customer_state 
-ORDER BY 1 DESC 
+ORDER BY 1 DESC; 
 
 -- Comando HAVING, usado apenas quando estamos usando o GROUP BY
 -- Não podemos filtrar registros que estão sendo agrupados usando o WHERE
@@ -77,7 +74,8 @@ SELECT COUNT(DISTINCT customer_id) AS counter, customer_state
 FROM customers 
 GROUP BY customer_state 
 HAVING counter > 10000
-ORDER BY 1 DESC ;
+ORDER BY 1 DESC;
+
 -- CASE WHEN permite substituir o valor de uma coluna por outro de acordo com uma ou mais condições
 -- começa com CASE e termina com END, entre fica o WHEN e THEN 
 -- Se nenhuma condição for atendida deve ser definido um ELSE
@@ -98,12 +96,12 @@ LIMIT  100;
 -- comando REPLACE
 SELECT DISTINCT product_category_name ,
 REPLACE (product_category_name, '_', ' ') categoria_sem_underline -- coluna, o que quer substuir pelo substituto
-FROM products
-;
+FROM products;
+
 -- comando SUBSTRING
 SELECT order_purchase_timestamp
 , SUBSTRING(order_purchase_timestamp, 1, 10) as data_compra
-FROM orders 
+FROM orders; 
 
 -- Nosso principal KPI é o volume de vendas. Como faço para contar esse volume mensalmente?
 SELECT COUNT(DISTINCT order_id) 
@@ -121,7 +119,7 @@ CASE WHEN order_delivered_customer_date
 	END AS col_case_when,
 -- cria a coluna col_coalesce
 COALESCE (order_delivered_customer_date, "Nao entregue") AS col_coalesce
-FROM orders  ;
+FROM orders;
 
 -- lidando com data usando julianday
 SELECT CAST((JULIANDAY(order_purchase_timestamp) - JULIANDAY(order_delivered_carrier_date))AS INT) AS dif_compra_entrega
@@ -144,9 +142,10 @@ GROUP BY 2
 ORDER BY 2 DESC;
 
 SELECT *
-FROM volume_diario
+FROM volume_diario;
 
 /*
+
  select
  from
  where
@@ -155,9 +154,6 @@ FROM volume_diario
  order by
  limit
  
- 
- STDEV desvio padrão para campos numéricos
+STDEV desvio padrão para campos numéricos
  
  */
-
- -- 40 minutos
