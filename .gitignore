@@ -135,3 +135,4 @@ dmypy.json
 *data-laliga/
 *.txt
 03_atividade.ipynb
+northwind.db
