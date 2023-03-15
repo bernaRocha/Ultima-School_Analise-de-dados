@@ -136,3 +136,6 @@ dmypy.json
 *.txt
 03_atividade.ipynb
 northwind.db
+*.csv
+*.o
+projeto
